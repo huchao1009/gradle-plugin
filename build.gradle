@@ -1,0 +1,22 @@
+apply plugin: 'groovy'
+apply plugin: 'maven'
+
+group 'com.opensource.gradle'
+version '1.0.0'
+
+dependencies {
+    implementation gradleApi()
+    implementation localGroovy()
+}
+
+afterEvaluate { project ->
+    uploadArchives {
+        repositories {
+            mavenDeployer {
+                repository(url: System.getenv("REPO_URL_RELEASE")) {
+                    authentication(userName: System.getenv("REPO_USER_NAME"), password: System.getenv("REPO_PASSWORD"))
+                }
+            }
+        }
+    }
+}
